@@ -1,5 +1,7 @@
 package battleship;
 
+import battleship.views.GameFieldView;
+
 public class Main {
 
     public static void main(String[] args) {

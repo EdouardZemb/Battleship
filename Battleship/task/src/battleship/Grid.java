@@ -1,5 +1,8 @@
 package battleship;
 
+import battleship.enums.CellValue;
+import battleship.enums.RowName;
+
 import java.util.ArrayList;
 import java.util.List;
 

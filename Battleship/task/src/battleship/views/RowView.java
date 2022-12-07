@@ -1,4 +1,7 @@
-package battleship;
+package battleship.views;
+
+import battleship.Cell;
+import battleship.Row;
 
 public class RowView {
     public final Row ROW;

@@ -1,4 +1,6 @@
-package battleship;
+package battleship.views;
+
+import battleship.Cell;
 
 public class CellView {
     public final Cell CELL;

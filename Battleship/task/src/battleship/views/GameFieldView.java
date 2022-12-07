@@ -1,9 +1,11 @@
-package battleship;
+package battleship.views;
+
+import battleship.GameField;
 
 public class GameFieldView {
     public final GameField GAME_FIELD;
 
-    GameFieldView(GameField gameField) {
+    public GameFieldView(GameField gameField) {
         GAME_FIELD = gameField;
     }
 

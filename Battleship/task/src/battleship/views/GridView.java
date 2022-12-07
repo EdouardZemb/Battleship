@@ -1,4 +1,7 @@
-package battleship;
+package battleship.views;
+
+import battleship.Grid;
+import battleship.Row;
 
 public class GridView {
     public final Grid GRID;

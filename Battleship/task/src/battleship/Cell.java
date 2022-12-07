@@ -1,5 +1,7 @@
 package battleship;
 
+import battleship.enums.CellValue;
+
 public class Cell {
     private CellValue value = CellValue.DEFAULT;
 

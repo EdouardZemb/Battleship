@@ -16,12 +16,12 @@ public class Grid {
     }
 
     @SuppressWarnings("unused")
-    public char getCellValue(RowName row, int column) {
+    public CellValue getCellValue(RowName row, int column) {
         return ROWS.get(row.getValue()).getCellValue(column);
     }
 
     @SuppressWarnings("unused")
-    public void setCellValue(int row, int column, char value) {
+    public void setCellValue(int row, int column, CellValue value) {
         ROWS.get(row).setCellValue(column, value);
     }
 }

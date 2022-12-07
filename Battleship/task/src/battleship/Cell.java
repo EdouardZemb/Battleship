@@ -1,20 +1,20 @@
 package battleship;
 
 public class Cell {
-    private char value = '~';
+    private CellValue value = CellValue.DEFAULT;
 
     Cell() {}
 
     @SuppressWarnings("unused")
-    Cell(char value) {
+    Cell(CellValue value) {
         this.value = value;
     }
 
-    public char getValue() {
+    public CellValue getValue() {
         return value;
     }
 
-    public void setValue(char value) {
+    public void setValue(CellValue value) {
         this.value = value;
     }
 }

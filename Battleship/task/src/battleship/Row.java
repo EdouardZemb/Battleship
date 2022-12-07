@@ -15,11 +15,11 @@ public class Row {
         }
     }
 
-    public char getCellValue(int column) {
+    public CellValue getCellValue(int column) {
         return CELLS.get(column).getValue();
     }
 
-    public void setCellValue(int column, char value) {
+    public void setCellValue(int column, CellValue value) {
         CELLS.get(column).setValue(value);
     }
 }

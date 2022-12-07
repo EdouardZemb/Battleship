@@ -8,6 +8,13 @@ public class CellView {
     }
 
     void print() {
-        System.out.print(CELL.getValue());
+        StringBuilder stringBuilder = new StringBuilder();
+        switch (CELL.getValue()) {
+            case HIT -> stringBuilder.append('X');
+            case MISS -> stringBuilder.append('M');
+            case SHIP -> stringBuilder.append('O');
+            case DEFAULT -> stringBuilder.append('~');
+        }
+        System.out.print(stringBuilder);
     }
 }

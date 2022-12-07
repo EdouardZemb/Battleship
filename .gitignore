@@ -1,0 +1,14 @@
+.idea
+.gradle
+gradle
+Battleship/task/out
+build.gradle
+gradlew
+Topics
+Battleship/task/test
+
+/* extensions */
+*.bat
+*.gradle
+*.html
+*.yaml

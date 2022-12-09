@@ -1,42 +1,36 @@
 package battleship.fleet;
 
+import battleship.Grid;
+import battleship.NotUpdatableCellValueException;
 import battleship.coordinates.Coordinates;
 import battleship.coordinates.ShipCoordinates;
-import battleship.coordinates.UnalignedCoordinatesException;
-import battleship.coordinates.WrongCoordinatesForShipLengthException;
+import battleship.enums.CellValue;
 import battleship.enums.RowName;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class ShipPlacer {
+    private final Grid GRID;
 
-    public void placeShip(Ship ship, ShipCoordinates shipCoordinates) throws UnalignedCoordinatesException, WrongCoordinatesForShipLengthException {
-            testCoordinatesAlignment(shipCoordinates);
-            testCoordinatesForShipLength(ship, shipCoordinates);
+    public ShipPlacer(Grid grid) {
+        GRID = grid;
     }
 
-    private void testCoordinatesForShipLength(Ship ship, ShipCoordinates shipCoordinates) throws WrongCoordinatesForShipLengthException {
-        Coordinates firstCoordinates = shipCoordinates.START;
-        Coordinates secondCoordinates = shipCoordinates.END;
+    public void placeShip(ShipCoordinates shipCoordinates) throws NotUpdatableCellValueException {
+        List<Coordinates> coordinatesList = new ArrayList<>(List.of(shipCoordinates.START, shipCoordinates.END));
 
-        List<RowName> rowNames = new java.util.ArrayList<>(List.of(firstCoordinates.ROW, secondCoordinates.ROW));
-        List<Integer> columns = new java.util.ArrayList<>(List.of(firstCoordinates.COLUMN, secondCoordinates.COLUMN));
+        Collections.sort(coordinatesList);
 
-        Collections.sort(rowNames);
-        Collections.sort(columns);
-        if(((rowNames.get(0).getValue() - rowNames.get(1).getValue()) != ship.LENGTH)
-                && ((columns.get(0) - columns.get(1)) != ship.LENGTH)) {
-            throw new WrongCoordinatesForShipLengthException(ship, firstCoordinates, secondCoordinates);
-        }
-    }
+        int cursor = shipCoordinates.ARE_ON_SAME_COLUMN ? coordinatesList.get(1).ROW.getValue() : coordinatesList.get(1).COLUMN;
 
-    private void testCoordinatesAlignment(ShipCoordinates shipCoordinates) throws UnalignedCoordinatesException {
-        Coordinates firstCoordinates = shipCoordinates.START;
-        Coordinates secondCoordinates = shipCoordinates.END;
+        for (int j = 0; j < shipCoordinates.SHIP.LENGTH; cursor--, j++) {
+            Coordinates coordinates = shipCoordinates.ARE_ON_SAME_COLUMN
+                    ? new Coordinates(RowName.getRowName(cursor), coordinatesList.get(1).COLUMN)
+                    : new Coordinates(coordinatesList.get(1).ROW, cursor);
 
-        if (firstCoordinates.COLUMN != secondCoordinates.COLUMN && firstCoordinates.ROW != secondCoordinates.ROW) {
-            throw new UnalignedCoordinatesException(firstCoordinates, secondCoordinates);
+            GRID.setCellValue(coordinates, CellValue.SHIP);
         }
     }
 }

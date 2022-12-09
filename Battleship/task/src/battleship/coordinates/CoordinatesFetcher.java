@@ -18,7 +18,7 @@ public class CoordinatesFetcher {
         PRINT_STREAM = printStream;
     }
 
-    public ShipCoordinates fetchUserShipCoordinates() {
+    public ShipCoordinates fetchUserShipCoordinates(Ship ship) throws WrongCoordinatesForShipLengthException, UnalignedCoordinatesException {
         RowName rowName;
         int column;
         List<Coordinates> coordinatesList = new ArrayList<>();
@@ -30,10 +30,10 @@ public class CoordinatesFetcher {
             String[] coordinates = input.split("");
             rowName = RowName.valueOf(coordinates[0]);
             column = Integer.parseInt(coordinates[1]);
-            coordinatesList.add(new Coordinates(rowName, column));
+            coordinatesList.add(new Coordinates(rowName, --column));
         }
 
-        return new ShipCoordinates(coordinatesList.get(0), coordinatesList.get(1));
+        return new ShipCoordinates(ship, coordinatesList.get(0), coordinatesList.get(1));
     }
 
     public void askUserForShipCoordinates(Ship ship) {

@@ -1,7 +1,7 @@
 package battleship;
 
+import battleship.coordinates.Coordinates;
 import battleship.enums.CellValue;
-import battleship.enums.RowName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,13 +18,7 @@ public class Grid {
         }
     }
 
-    @SuppressWarnings("unused")
-    public CellValue getCellValue(RowName row, int column) {
-        return ROWS.get(row.getValue()).getCellValue(column);
-    }
-
-    @SuppressWarnings("unused")
-    public void setCellValue(int row, int column, CellValue value) {
-        ROWS.get(row).setCellValue(column, value);
+    public void setCellValue(Coordinates coordinates, CellValue value) throws NotUpdatableCellValueException {
+        ROWS.get(coordinates.ROW.getValue()).setCellValue(coordinates.COLUMN, value);
     }
 }

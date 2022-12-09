@@ -7,6 +7,7 @@ import battleship.coordinates.WrongCoordinatesForShipLengthException;
 import battleship.fleet.Fleet;
 import battleship.fleet.Ship;
 import battleship.fleet.ShipPlacer;
+import battleship.views.GameFieldView;
 
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -36,8 +37,9 @@ public class GameField {
             coordinatesFetcher.askUserForShipCoordinates(ship);
             while (true) {
                 try {
-                    ShipCoordinates shipCoordinates = coordinatesFetcher.fetchUserShipCoordinates();
-                    new ShipPlacer().placeShip(ship, shipCoordinates);
+                    ShipCoordinates shipCoordinates = coordinatesFetcher.fetchUserShipCoordinates(ship);
+                    new ShipPlacer(GRID).placeShip(shipCoordinates);
+                    new GameFieldView(this).print();
                     break;
                 } catch (Exception exception) {
                     StringBuilder stringBuilder = new StringBuilder();
@@ -49,6 +51,10 @@ public class GameField {
                                 .append("Error! Wrong length of the ")
                                 .append(ship.NAME)
                                 .append(" Try again:");
+                    }
+                    if (exception instanceof NotUpdatableCellValueException) {
+                        stringBuilder
+                                .append("Error! Already occupied location! Try again:");
                     }
                     PRINT_STREAM.println(stringBuilder);
                 }

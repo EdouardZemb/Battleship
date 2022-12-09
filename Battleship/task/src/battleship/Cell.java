@@ -16,7 +16,10 @@ public class Cell {
         return value;
     }
 
-    public void setValue(CellValue value) {
+    public void setValue(CellValue value) throws NotUpdatableCellValueException {
+        if (this.value != CellValue.DEFAULT) {
+            throw new NotUpdatableCellValueException();
+        }
         this.value = value;
     }
 }

@@ -21,4 +21,24 @@ public class Grid {
     public void setCellValue(Coordinates coordinates, CellValue value) throws NotUpdatableCellValueException {
         ROWS.get(coordinates.ROW.getValue()).setCellValue(coordinates.COLUMN, value);
     }
+
+    public List<Cell> getAdjacentCells(Coordinates coordinates) {
+        List<Cell> adjacentCells = new ArrayList<>();
+        int coordinatesRowNameValue = coordinates.ROW.getValue();
+        int coordinatesColumn = coordinates.COLUMN;
+
+        if (!coordinates.ROW.isOnTop()) {
+            adjacentCells.add(ROWS.get(coordinatesRowNameValue - 1).CELLS.get(coordinatesColumn));
+        }
+        if (!coordinates.ROW.isOnBottom()) {
+            adjacentCells.add(ROWS.get(coordinatesRowNameValue + 1).CELLS.get(coordinatesColumn));
+        }
+        if (coordinates.COLUMN != 0) {
+            adjacentCells.add(ROWS.get(coordinatesRowNameValue).CELLS.get(coordinatesColumn - 1));
+        }
+        if (coordinates.COLUMN != NUMBER_OF_COLUMNS - 1) {
+            adjacentCells.add(ROWS.get(coordinatesRowNameValue).CELLS.get(coordinatesColumn + 1));
+        }
+        return adjacentCells;
+    }
 }

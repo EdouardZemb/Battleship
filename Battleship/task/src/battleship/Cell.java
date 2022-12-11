@@ -7,19 +7,18 @@ public class Cell {
 
     Cell() {}
 
-    @SuppressWarnings("unused")
-    Cell(CellValue value) {
-        this.value = value;
-    }
-
     public CellValue getValue() {
         return value;
     }
 
     public void setValue(CellValue value) throws NotUpdatableCellValueException {
-        if (this.value != CellValue.DEFAULT) {
+        if (isOccupied()) {
             throw new NotUpdatableCellValueException();
         }
         this.value = value;
+    }
+
+    public boolean isOccupied() {
+        return value != CellValue.DEFAULT;
     }
 }

@@ -21,4 +21,12 @@ public enum RowName {
     public int getValue() {
         return VALUE;
     }
+
+    public boolean isOnTop() {
+        return this.equals(RowName.A);
+    }
+
+    public boolean isOnBottom() {
+        return this.equals(RowName.J);
+    }
 }

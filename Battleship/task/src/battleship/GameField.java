@@ -7,6 +7,7 @@ import battleship.coordinates.WrongCoordinatesForShipLengthException;
 import battleship.fleet.Fleet;
 import battleship.fleet.Ship;
 import battleship.fleet.ShipPlacer;
+import battleship.fleet.ToCloseToAShipException;
 import battleship.views.GameFieldView;
 
 import java.io.InputStream;
@@ -27,11 +28,11 @@ public class GameField {
         PRINT_STREAM = printStream;
     }
 
-    public void initializedGame(Fleet fleet) {
+    public void initializedGame(Fleet fleet) throws WrongCoordinatesForShipLengthException, NotUpdatableCellValueException, UnalignedCoordinatesException, ToCloseToAShipException {
         placeFleet(fleet);
     }
 
-    private void placeFleet(Fleet fleet) {
+    private void placeFleet(Fleet fleet) throws WrongCoordinatesForShipLengthException, NotUpdatableCellValueException, UnalignedCoordinatesException, ToCloseToAShipException {
         CoordinatesFetcher coordinatesFetcher = new CoordinatesFetcher(INPUT_STREAM, PRINT_STREAM);
         for (Ship ship : fleet.SHIPS) {
             coordinatesFetcher.askUserForShipCoordinates(ship);
@@ -45,17 +46,21 @@ public class GameField {
                     StringBuilder stringBuilder = new StringBuilder();
                     if (exception instanceof UnalignedCoordinatesException) {
                         stringBuilder.append("Error! Wrong ship location! Try again:");
-                    }
-                    if (exception instanceof WrongCoordinatesForShipLengthException) {
+                    } else if (exception instanceof WrongCoordinatesForShipLengthException) {
                         stringBuilder
                                 .append("Error! Wrong length of the ")
                                 .append(ship.NAME)
                                 .append(" Try again:");
-                    }
-                    if (exception instanceof NotUpdatableCellValueException) {
+                    } else if (exception instanceof NotUpdatableCellValueException) {
                         stringBuilder
                                 .append("Error! Already occupied location! Try again:");
+                    } else if (exception instanceof ToCloseToAShipException) {
+                        stringBuilder
+                                .append("Error! You placed it too close to another one. Try again:");
+                    } else {
+                        throw exception;
                     }
+
                     PRINT_STREAM.println(stringBuilder);
                 }
             }

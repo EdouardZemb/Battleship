@@ -11,14 +11,19 @@ public class Cell {
         return value;
     }
 
-    public void setValue(CellValue value) throws NotUpdatableCellValueException {
-        if (isOccupied()) {
-            throw new NotUpdatableCellValueException();
-        }
+    public void setValue(CellValue value) {
         this.value = value;
     }
 
     public boolean isOccupied() {
         return value != CellValue.DEFAULT;
+    }
+
+    public boolean isEmpty() {
+        return value == CellValue.DEFAULT;
+    }
+
+    public boolean isOccupiedByShip() {
+        return value == CellValue.SHIP;
     }
 }

@@ -17,28 +17,28 @@ public class Coordinates implements Comparable<Coordinates> {
         COLUMN = column;
     }
 
-    public Coordinates(String coordinates) {
-        Pattern pattern = Pattern.compile("[A-J]\\d{1,2}");
+    public Coordinates(String coordinates) throws WroogCoordinatesException {
+        Pattern pattern = Pattern.compile("^[A-J]([1-9]|10)$");
         Matcher matcher = pattern.matcher(coordinates);
 
         if (!matcher.find()) {
-            throw new IllegalArgumentException();
+            throw new WroogCoordinatesException();
         }
 
         pattern = Pattern.compile("[A-J]");
         matcher = pattern.matcher(coordinates);
 
         if (!matcher.find()) {
-            throw new IllegalArgumentException();
+            throw new WroogCoordinatesException();
         }
 
         ROW = RowName.valueOf(matcher.group(0));
 
-        pattern = Pattern.compile("\\d{1,2}");
+        pattern = Pattern.compile("(?<=[A-J])([1-9]|10)\\b");
         matcher = pattern.matcher(coordinates);
 
         if (!matcher.find()) {
-            throw new IllegalArgumentException();
+            throw new WroogCoordinatesException();
         }
 
         COLUMN = Integer.parseInt(matcher.group(0)) - 1;

@@ -17,7 +17,12 @@ public class CoordinatesFetcher {
         PRINT_STREAM = printStream;
     }
 
-    public ShipCoordinates fetchUserShipCoordinates(Ship ship) throws WrongCoordinatesForShipLengthException, UnalignedCoordinatesException {
+    public Coordinates fetchUserShotCoordinates() throws WroogCoordinatesException {
+        Scanner scanner = new Scanner(INPUT_STREAM);
+        return new Coordinates(scanner.nextLine());
+    }
+
+    public ShipCoordinates fetchUserShipCoordinates(Ship ship) throws WrongCoordinatesForShipLengthException, UnalignedCoordinatesException, WroogCoordinatesException {
         List<Coordinates> coordinatesList = new ArrayList<>();
 
         Scanner scanner = new Scanner(INPUT_STREAM);

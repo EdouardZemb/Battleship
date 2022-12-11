@@ -41,4 +41,12 @@ public class Grid {
         }
         return adjacentCells;
     }
+
+    public boolean isCellEmpty(Coordinates shotCoordinates) {
+        return ROWS.get(shotCoordinates.ROW.getValue()).CELLS.get(shotCoordinates.COLUMN).isEmpty();
+    }
+
+    public boolean isCellOccupiedByShip(Coordinates shotCoordinates) {
+        return ROWS.get(shotCoordinates.ROW.getValue()).CELLS.get(shotCoordinates.COLUMN).isOccupiedByShip();
+    }
 }

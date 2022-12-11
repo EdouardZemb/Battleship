@@ -1,9 +1,6 @@
 package battleship;
 
-import battleship.coordinates.CoordinatesFetcher;
-import battleship.coordinates.ShipCoordinates;
-import battleship.coordinates.UnalignedCoordinatesException;
-import battleship.coordinates.WrongCoordinatesForShipLengthException;
+import battleship.coordinates.*;
 import battleship.fleet.Fleet;
 import battleship.fleet.Ship;
 import battleship.fleet.ShipPlacer;
@@ -19,6 +16,7 @@ public class GameField {
     public final Grid GRID;
     private final InputStream INPUT_STREAM;
     private final PrintStream PRINT_STREAM;
+    private final GameFieldView VIEW;
 
     public GameField(int numberOfColumns, int numberOfRows, InputStream inputStream, PrintStream printStream) {
         NUMBER_OF_COLUMNS = numberOfColumns;
@@ -26,13 +24,14 @@ public class GameField {
         GRID = new Grid(numberOfColumns, numberOfRows);
         INPUT_STREAM = inputStream;
         PRINT_STREAM = printStream;
+        VIEW = new GameFieldView(this, inputStream, printStream);
     }
 
-    public void initializedGame(Fleet fleet) throws WrongCoordinatesForShipLengthException, NotUpdatableCellValueException, UnalignedCoordinatesException, ToCloseToAShipException {
+    public void initializedGame(Fleet fleet) throws WrongCoordinatesForShipLengthException, NotUpdatableCellValueException, UnalignedCoordinatesException, ToCloseToAShipException, WroogCoordinatesException {
         placeFleet(fleet);
     }
 
-    private void placeFleet(Fleet fleet) throws WrongCoordinatesForShipLengthException, NotUpdatableCellValueException, UnalignedCoordinatesException, ToCloseToAShipException {
+    private void placeFleet(Fleet fleet) throws WrongCoordinatesForShipLengthException, NotUpdatableCellValueException, UnalignedCoordinatesException, ToCloseToAShipException, WroogCoordinatesException {
         CoordinatesFetcher coordinatesFetcher = new CoordinatesFetcher(INPUT_STREAM, PRINT_STREAM);
         for (Ship ship : fleet.SHIPS) {
             coordinatesFetcher.askUserForShipCoordinates(ship);
@@ -40,11 +39,14 @@ public class GameField {
                 try {
                     ShipCoordinates shipCoordinates = coordinatesFetcher.fetchUserShipCoordinates(ship);
                     new ShipPlacer(GRID).placeShip(shipCoordinates);
-                    new GameFieldView(this).print();
+                    VIEW.printGrid();
                     break;
                 } catch (Exception exception) {
                     StringBuilder stringBuilder = new StringBuilder();
-                    if (exception instanceof UnalignedCoordinatesException) {
+                    if (exception instanceof WroogCoordinatesException) {
+                        stringBuilder
+                                .append("Error! You entered the wrong coordinates! Try again:");
+                    } else if (exception instanceof UnalignedCoordinatesException) {
                         stringBuilder.append("Error! Wrong ship location! Try again:");
                     } else if (exception instanceof WrongCoordinatesForShipLengthException) {
                         stringBuilder
@@ -63,6 +65,30 @@ public class GameField {
 
                     PRINT_STREAM.println(stringBuilder);
                 }
+            }
+        }
+    }
+
+    public void startsPlayersTurn() throws WroogCoordinatesException, NotUpdatableCellValueException {
+        PRINT_STREAM.println("The game starts");
+        VIEW.printGrid();
+        PRINT_STREAM.println("Take a shot!");
+        CoordinatesFetcher coordinatesFetcher = new CoordinatesFetcher(INPUT_STREAM, PRINT_STREAM);
+        while (true) {
+            try {
+                Coordinates shotCoordinates = coordinatesFetcher.fetchUserShotCoordinates();
+                new ShotPlacer(GRID).placeShot(shotCoordinates);
+                VIEW.printGrid();
+                break;
+            } catch (Exception exception) {
+                StringBuilder stringBuilder = new StringBuilder();
+                if (exception instanceof WroogCoordinatesException) {
+                    stringBuilder
+                            .append("Error! You entered the wrong coordinates! Try again:");
+                } else {
+                    throw exception;
+                }
+                PRINT_STREAM.println(stringBuilder);
             }
         }
     }

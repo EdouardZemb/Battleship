@@ -3,6 +3,7 @@ package battleship.coordinates;
 import battleship.Cell;
 import battleship.Grid;
 import battleship.enums.RowName;
+import battleship.exceptions.WrongCoordinatesException;
 
 import java.util.List;
 import java.util.regex.Matcher;
@@ -17,31 +18,30 @@ public class Coordinates implements Comparable<Coordinates> {
         COLUMN = column;
     }
 
-    public Coordinates(String coordinates) throws WroogCoordinatesException {
-        Pattern pattern = Pattern.compile("^[A-J]([1-9]|10)$");
-        Matcher matcher = pattern.matcher(coordinates);
+    public Coordinates(String coordinates) throws WrongCoordinatesException {
+        Matcher matcher;
 
-        if (!matcher.find()) {
-            throw new WroogCoordinatesException();
-        }
+        getMatcher("^[A-J]([1-9]|10)$", coordinates);
 
-        pattern = Pattern.compile("[A-J]");
-        matcher = pattern.matcher(coordinates);
-
-        if (!matcher.find()) {
-            throw new WroogCoordinatesException();
-        }
+        matcher = getMatcher("[A-J]", coordinates);
 
         ROW = RowName.valueOf(matcher.group(0));
 
-        pattern = Pattern.compile("(?<=[A-J])([1-9]|10)\\b");
+        matcher = getMatcher("(?<=[A-J])([1-9]|10)\\b", coordinates);
+
+        COLUMN = Integer.parseInt(matcher.group(0)) - 1;
+    }
+
+    private static Matcher getMatcher(String regex, String coordinates) throws WrongCoordinatesException {
+        Pattern pattern;
+        Matcher matcher;
+        pattern = Pattern.compile(regex);
         matcher = pattern.matcher(coordinates);
 
         if (!matcher.find()) {
-            throw new WroogCoordinatesException();
+            throw new WrongCoordinatesException();
         }
-
-        COLUMN = Integer.parseInt(matcher.group(0)) - 1;
+        return matcher;
     }
 
     @Override

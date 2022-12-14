@@ -18,7 +18,7 @@ public class Grid {
         }
     }
 
-    public void setCellValue(Coordinates coordinates, CellValue value) throws NotUpdatableCellValueException {
+    public void setCellValue(Coordinates coordinates, CellValue value) {
         ROWS.get(coordinates.ROW.getValue()).setCellValue(coordinates.COLUMN, value);
     }
 

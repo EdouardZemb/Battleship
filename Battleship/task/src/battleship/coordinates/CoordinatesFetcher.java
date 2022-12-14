@@ -1,5 +1,8 @@
 package battleship.coordinates;
 
+import battleship.exceptions.UnalignedCoordinatesException;
+import battleship.exceptions.WrongCoordinatesException;
+import battleship.exceptions.WrongCoordinatesForShipLengthException;
 import battleship.fleet.Ship;
 
 import java.io.InputStream;
@@ -17,12 +20,12 @@ public class CoordinatesFetcher {
         PRINT_STREAM = printStream;
     }
 
-    public Coordinates fetchUserShotCoordinates() throws WroogCoordinatesException {
+    public Coordinates fetchUserShotCoordinates() throws WrongCoordinatesException {
         Scanner scanner = new Scanner(INPUT_STREAM);
         return new Coordinates(scanner.nextLine());
     }
 
-    public ShipCoordinates fetchUserShipCoordinates(Ship ship) throws WrongCoordinatesForShipLengthException, UnalignedCoordinatesException, WroogCoordinatesException {
+    public ShipCoordinates fetchUserShipCoordinates(Ship ship) throws WrongCoordinatesForShipLengthException, UnalignedCoordinatesException, WrongCoordinatesException {
         List<Coordinates> coordinatesList = new ArrayList<>();
 
         Scanner scanner = new Scanner(INPUT_STREAM);

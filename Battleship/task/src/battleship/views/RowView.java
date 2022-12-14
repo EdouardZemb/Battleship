@@ -10,11 +10,19 @@ public class RowView {
         ROW = row;
     }
 
-    void print() {
+    public void print() {
         System.out.print(ROW.name);
         for (Cell cell : ROW.CELLS) {
             System.out.print(' ');
             new CellView(cell).print();
+        }
+    }
+
+    public void printFogged() {
+        System.out.print(ROW.name);
+        for (Cell cell : ROW.CELLS) {
+            System.out.print(' ');
+            new CellView(cell).printFogged();
         }
     }
 }

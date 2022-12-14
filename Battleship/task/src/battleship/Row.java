@@ -18,7 +18,7 @@ public class Row {
         }
     }
 
-    public void setCellValue(int column, CellValue value) throws NotUpdatableCellValueException {
+    public void setCellValue(int column, CellValue value) {
         CELLS.get(column).setValue(value);
     }
 }

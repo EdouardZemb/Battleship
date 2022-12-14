@@ -2,6 +2,8 @@ package battleship;
 
 import battleship.coordinates.Coordinates;
 import battleship.enums.CellValue;
+import battleship.exceptions.NotUpdatableCellValueException;
+import battleship.views.GridView;
 
 public class ShotPlacer {
 
@@ -12,11 +14,14 @@ public class ShotPlacer {
     }
 
     public void placeShot(Coordinates shotCoordinates) throws NotUpdatableCellValueException {
+        GridView gridView = new GridView(GRID);
         if (GRID.isCellEmpty(shotCoordinates)) {
             GRID.setCellValue(shotCoordinates, CellValue.MISS);
+            gridView.printFogged();
             System.out.println("You missed!");
         } else if (GRID.isCellOccupiedByShip(shotCoordinates)) {
             GRID.setCellValue(shotCoordinates, CellValue.HIT);
+            gridView.printFogged();
             System.out.println("You hit a ship!");
         }
     }

@@ -1,7 +1,7 @@
 package battleship.fleet;
 
 import battleship.Grid;
-import battleship.NotUpdatableCellValueException;
+import battleship.exceptions.NotUpdatableCellValueException;
 import battleship.coordinates.Coordinates;
 import battleship.coordinates.ShipCoordinates;
 import battleship.enums.CellValue;
@@ -29,7 +29,7 @@ public class ShipPlacer {
         placeShipOnGrid(shipCoordinates, coordinatesList, cursor);
     }
 
-    private void placeShipOnGrid(ShipCoordinates shipCoordinates, List<Coordinates> coordinatesList, int cursor) throws NotUpdatableCellValueException {
+    private void placeShipOnGrid(ShipCoordinates shipCoordinates, List<Coordinates> coordinatesList, int cursor) {
         for (int j = 0; j < shipCoordinates.SHIP.LENGTH; cursor--, j++) {
             Coordinates coordinates = shipCoordinates.ARE_ON_SAME_COLUMN
                     ? new Coordinates(RowName.getRowName(cursor), coordinatesList.get(1).COLUMN)

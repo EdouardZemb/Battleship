@@ -19,4 +19,14 @@ public class CellView {
         }
         System.out.print(stringBuilder);
     }
+
+    public void printFogged() {
+        StringBuilder stringBuilder = new StringBuilder();
+        switch (CELL.getValue()) {
+            case HIT -> stringBuilder.append('X');
+            case MISS -> stringBuilder.append('M');
+            case SHIP, DEFAULT -> stringBuilder.append('~');
+        }
+        System.out.print(stringBuilder);
+    }
 }

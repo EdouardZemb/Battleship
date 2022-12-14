@@ -1,7 +1,6 @@
 package battleship.views;
 
 import battleship.GameField;
-import battleship.View;
 
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -16,5 +15,9 @@ public class GameFieldView extends View {
 
     public void printGrid() {
         new GridView(GAME_FIELD.GRID).print();
+    }
+
+    public void printFoggedGrid() {
+        new GridView(GAME_FIELD.GRID).printFogged();
     }
 }

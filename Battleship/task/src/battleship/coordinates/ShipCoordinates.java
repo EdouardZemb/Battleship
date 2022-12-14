@@ -1,6 +1,8 @@
 package battleship.coordinates;
 
 import battleship.enums.RowName;
+import battleship.exceptions.UnalignedCoordinatesException;
+import battleship.exceptions.WrongCoordinatesForShipLengthException;
 import battleship.fleet.Ship;
 
 import java.util.ArrayList;
@@ -41,7 +43,7 @@ public class ShipCoordinates {
 
         if (((rowNames.get(1).getValue() - rowNames.get(0).getValue()) != SHIP.LENGTH - 1)
                 && ((columns.get(1) - columns.get(0)) != SHIP.LENGTH - 1)) {
-            throw new WrongCoordinatesForShipLengthException(SHIP, START, END);
+            throw new WrongCoordinatesForShipLengthException(this);
         }
     }
 

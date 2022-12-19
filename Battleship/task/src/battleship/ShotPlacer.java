@@ -3,6 +3,7 @@ package battleship;
 import battleship.coordinates.Coordinates;
 import battleship.enums.CellValue;
 import battleship.exceptions.NotUpdatableCellValueException;
+import battleship.fleet.Fleet;
 import battleship.views.GridView;
 
 public class ShotPlacer {
@@ -13,7 +14,7 @@ public class ShotPlacer {
         GRID = grid;
     }
 
-    public void placeShot(Coordinates shotCoordinates) throws NotUpdatableCellValueException {
+    public void placeShot(Coordinates shotCoordinates, Fleet fleet) throws NotUpdatableCellValueException {
         GridView gridView = new GridView(GRID);
         if (GRID.isCellEmpty(shotCoordinates)) {
             GRID.setCellValue(shotCoordinates, CellValue.MISS);
@@ -22,7 +23,7 @@ public class ShotPlacer {
         } else if (GRID.isCellOccupiedByShip(shotCoordinates)) {
             GRID.setCellValue(shotCoordinates, CellValue.HIT);
             gridView.printFogged();
-            System.out.println("You hit a ship!");
+            fleet.shootShip(shotCoordinates);
         }
     }
 }

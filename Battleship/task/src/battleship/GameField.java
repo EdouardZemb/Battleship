@@ -18,6 +18,7 @@ public class GameField {
     private final InputStream INPUT_STREAM;
     private final PrintStream PRINT_STREAM;
     private final GameFieldView VIEW;
+    private Fleet fleet;
 
     public GameField(int numberOfColumns, int numberOfRows, InputStream inputStream, PrintStream printStream) {
         NUMBER_OF_COLUMNS = numberOfColumns;
@@ -29,12 +30,13 @@ public class GameField {
     }
 
     public void initializedGame(Fleet fleet) {
-        placeFleet(fleet);
+        this.fleet = fleet;
+        placeFleet();
     }
 
-    private void placeFleet(Fleet fleet) {
+    private void placeFleet() {
         CoordinatesFetcher coordinatesFetcher = new CoordinatesFetcher(INPUT_STREAM, PRINT_STREAM);
-        for (Ship ship : fleet.SHIPS) {
+        for (Ship ship : this.fleet.SHIPS) {
             coordinatesFetcher.askUserForShipCoordinates(ship);
             while (true) {
                 try {
@@ -54,17 +56,20 @@ public class GameField {
         PRINT_STREAM.println("The game starts");
         VIEW.printFoggedGrid();
         PRINT_STREAM.println("Take a shot!");
-        CoordinatesFetcher coordinatesFetcher = new CoordinatesFetcher(INPUT_STREAM, PRINT_STREAM);
-        while (true) {
-            try {
-                Coordinates shotCoordinates = coordinatesFetcher.fetchUserShotCoordinates();
-                new ShotPlacer(GRID).placeShot(shotCoordinates);
-                VIEW.printGrid();
-                break;
-            } catch (PrintableException exception) {
-                new ExceptionHandler(INPUT_STREAM, PRINT_STREAM)
-                        .handleException(exception);
+        while (!fleet.isFleetSunk()) {
+            CoordinatesFetcher coordinatesFetcher = new CoordinatesFetcher(INPUT_STREAM, PRINT_STREAM);
+            while (true) {
+                try {
+                    Coordinates shotCoordinates = coordinatesFetcher.fetchUserShotCoordinates();
+                    new ShotPlacer(GRID).placeShot(shotCoordinates, fleet);
+                    VIEW.printGrid();
+                    break;
+                } catch (PrintableException exception) {
+                    new ExceptionHandler(INPUT_STREAM, PRINT_STREAM)
+                            .handleException(exception);
+                }
             }
         }
+        PRINT_STREAM.println("You sank the last ship. You won. Congratulations!");
     }
 }

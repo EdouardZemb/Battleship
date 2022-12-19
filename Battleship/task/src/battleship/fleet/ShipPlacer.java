@@ -36,6 +36,7 @@ public class ShipPlacer {
                     : new Coordinates(coordinatesList.get(1).ROW, cursor);
 
             GRID.setCellValue(coordinates, CellValue.SHIP);
+            shipCoordinates.SHIP.coordinates.add(coordinates);
         }
     }
 

@@ -52,6 +52,19 @@ public class Coordinates implements Comparable<Coordinates> {
         return ROW.compareTo(coordinates.ROW) == 0 && COLUMN == coordinates.COLUMN ? 0 : -1;
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof Coordinates coordinates) {
+            return coordinates.ROW == this.ROW && coordinates.COLUMN == this.COLUMN;
+        }
+        return false;
+    }
+
     public boolean isNextToAShip(Grid grid) {
         List<Cell> adjacentCells = grid.getAdjacentCells(this);
 
